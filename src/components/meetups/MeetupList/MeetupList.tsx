@@ -1,16 +1,17 @@
-import MeetupItem, {Meetup} from './MeetupItem';
-import classes from './MeetupList.module.css';
+import { MeetupItem } from "../";
+import classes from "./MeetupList.module.css";
 import React from "react";
+import { Meetup } from "@/components/meetups/model";
 
 type Props = {
-  meetups: Meetup[]
-}
+  meetups: Meetup[];
+};
 
 const MeetupList = (props: Props): React.ReactElement => {
   const { meetups } = props;
   return (
     <ul className={classes.list}>
-      {meetups.map((meetup) => (
+      {meetups.map((meetup: Omit<Meetup, "description">) => (
         <MeetupItem
           key={meetup.id}
           id={meetup.id}
@@ -21,6 +22,6 @@ const MeetupList = (props: Props): React.ReactElement => {
       ))}
     </ul>
   );
-}
+};
 
 export default MeetupList;

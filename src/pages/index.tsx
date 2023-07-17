@@ -1,26 +1,50 @@
-import MeetupList from "../components/meetups/MeetupList";
+import { MongoClient } from "mongodb";
+import MeetupList from "../components/meetups/MeetupList/MeetupList";
+import { Meetup } from "@/components/meetups/model";
+import { mongoDb } from "../../envConstants";
 
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "Sturminster Newton",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/c/ce/Sturminster_Newton_Mill_-_geograph.org.uk_-_1297822.jpg",
-    address: "Sturminster Newton, Dorset, England",
-    description: "This is a first meetup!",
-  },
-  {
-    id: "m2",
-    title: "Hull",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Hull_City_Hall_Apr23.jpg/1280px-Hull_City_Hall_Apr23.jpg",
-    address: "Hull, East Yorkshire, England",
-    description: "This is a second meetup!",
-  },
-];
+interface Props {
+  meetups: Meetup[];
+}
 
-const HomePage = () => {
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+const HomePage = (props: Props) => {
+  const { meetups } = props;
+  return <MeetupList meetups={meetups} />;
 };
+
+// this runs during the build process and returns the props to the component
+// this is faster if you page data does not change ALL THE TIME. Props can be stored in a CDN
+export async function getStaticProps() {
+  const client = await MongoClient.connect(mongoDb);
+  const db = client.db();
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find().toArray();
+  await client.close();
+
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        id: meetup._id.toString(),
+        title: meetup.title,
+        image: meetup.image,
+        address: meetup.address,
+      })),
+    },
+    revalidate: 10,
+  };
+}
+
+// this does not run during the build process, it runs on the server and returns the props to the component on each request
+// export async function getServerSideProps(context: any) {
+//   // fetch data from an API
+//   const { req, res } = context;
+//
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//   };
+// }
 
 export default HomePage;

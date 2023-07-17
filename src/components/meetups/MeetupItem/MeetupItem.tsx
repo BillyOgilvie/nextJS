@@ -1,15 +1,12 @@
-import Card from "../ui/Card";
+import Card from "../../ui/Card";
 import classes from "./MeetupItem.module.css";
+import { Meetup } from "@/components/meetups/model";
+import { useMeetupItem } from "@/components/meetups/MeetupItem/useMeetupItem";
 
-export interface Meetup {
-  id: string;
-  image: string;
-  title: string;
-  address: string;
-}
+function MeetupItem(props: Omit<Meetup, "description">) {
+  const { id, image, title, address } = props;
 
-function MeetupItem(props: Meetup) {
-  const { image, title, address } = props;
+  const { showDetailsClickHandler } = useMeetupItem();
 
   return (
     <li className={classes.item}>
@@ -22,7 +19,9 @@ function MeetupItem(props: Meetup) {
           <address>{address}</address>
         </div>
         <div className={classes.actions}>
-          <button>Show Details</button>
+          <button onClick={() => showDetailsClickHandler(id)}>
+            Show Details
+          </button>
         </div>
       </Card>
     </li>

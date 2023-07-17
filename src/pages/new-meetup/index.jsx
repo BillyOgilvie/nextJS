@@ -1,5 +1,5 @@
-import NewMeetupForm from "../../components/meetups/NewMeetupForm";
-import { useNewMeetup } from "./useNewMeetup";
+import NewMeetupForm from "../../components/meetups/NewMeetupForm/NewMeetupForm";
+import { useNewMeetup } from "../../pageHooks/useNewMeetup";
 
 const NewMeetupPage = () => {
   const { addMeetupHandler } = useNewMeetup();
