@@ -2,6 +2,7 @@ import { MongoClient } from "mongodb";
 import MeetupList from "../components/meetups/MeetupList/MeetupList";
 import { Meetup } from "@/components/meetups/model";
 import { mongoDb } from "../../envConstants";
+import Head from "next/head";
 
 interface Props {
   meetups: Meetup[];
@@ -9,7 +10,18 @@ interface Props {
 
 const HomePage = (props: Props) => {
   const { meetups } = props;
-  return <MeetupList meetups={meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name={"description"}
+          content={"Browse a huge list of highly active React meetups!"}
+        />
+      </Head>
+      <MeetupList meetups={meetups} />
+    </>
+  );
 };
 
 // this runs during the build process and returns the props to the component

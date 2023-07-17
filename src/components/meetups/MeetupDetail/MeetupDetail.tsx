@@ -14,7 +14,7 @@ const MeetupDetail = (props: Props): React.ReactElement => {
   return (
     <div className={classes.detailsContainer}>
       <img src={image} alt={title} />
-      <h1>{title} Meetup</h1>
+      <h1>{title}</h1>
       <p>{description}</p>
       <address>{address}</address>
     </div>

@@ -3,6 +3,7 @@ import MeetupDetail from "@/components/meetups/MeetupDetail/MeetupDetail";
 import { Meetup } from "@/components/meetups/model";
 import { MongoClient, ObjectId } from "mongodb";
 import { mongoDb } from "../../../envConstants";
+import Head from "next/head";
 
 interface Props {
   meetup: Meetup;
@@ -14,12 +15,18 @@ const MeetupDetails = (props: Props): React.ReactElement => {
   } = props;
 
   return (
-    <MeetupDetail
-      title={title}
-      address={address}
-      description={description}
-      image={image}
-    />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name={"description"} content={description} />
+      </Head>
+      <MeetupDetail
+        title={title}
+        address={address}
+        description={description}
+        image={image}
+      />
+    </>
   );
 };
 
