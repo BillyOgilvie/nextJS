@@ -44,8 +44,9 @@ export const getStaticPaths = async () => {
   await client.close();
 
   return {
-    // fallback of false means paths has to be complete. If true, it will try to generate the page on the fly, else it will return a 404
-    fallback: false,
+    // fallback of false means paths has to be complete. If true, it will try to generate the page on the fly, but generate an empty page to hydrate
+    // blocking will prerender and hydrate the page on the server
+    fallback: "blocking",
     paths: meetups.map((meetup) => ({
       params: {
         meetupId: meetup._id.toString(),
